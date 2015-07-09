@@ -4,11 +4,95 @@
 
 @section('content')
 
-    @foreach($results as $job)
-    <div>
-        <h4>{!! $job->title !!}</h4>
-        <p>{!! $job->blurb !!}</p>
+    @include('partials.searchform')
+
+    @if(Request::method() === 'POST')
+    <div class="row">
+        <div class="col-md-2">
+
+            <div class="filter-box">
+                <a class="filter-handle" data-toggle="collapse" href="#filter-tags" aria-expanded="true" aria-controls="filter-tags">
+                    <i class="fa fa-sort"></i> Sort By
+                </a>
+                <ul class="list-unstyled collapse in" id="filter-relevance">
+                    <li><a href="#"><i class="fa fa-fw fa-circle-o"></i> Relevance</a></li>
+                    <li><a href="#"><i class="fa fa-fw fa-circle-o"></i> Date</a></li>
+                    <li><a href="#"><i class="fa fa-fw fa-circle"></i> Salary</a></li>
+                </ul>
+            </div>
+
+            <div class="filter-box">
+                <a class="filter-handle" data-toggle="collapse" href="#filter-tags" aria-expanded="true" aria-controls="filter-tags">
+                    <i class="fa fa-sort"></i> Sarary Range
+                </a>
+                <ul class="list-unstyled collapse in" id="filter-relevance">
+
+
+                    <li><a href="#"><i class="fa fa-fw fa-circle-o"></i> $60,000+</a></li>
+                    <li><a href="#"><i class="fa fa-fw fa-circle"></i> $80,000+</a></li>
+                    <li><a href="#"><i class="fa fa-fw fa-circle-o"></i> $100,000+</a></li>
+                    <li><a href="#"><i class="fa fa-fw fa-circle-o"></i> $120,000+</a></li>
+                    <li><a href="#"><i class="fa fa-fw fa-circle-o"></i> $150,000+</a></li>
+                </ul>
+            </div>
+
+            <div class="filter-box">
+                <a class="filter-handle" data-toggle="collapse" href="#filter-tags" aria-expanded="true" aria-controls="filter-tags">
+                    <i class="fa fa-clock-o"></i> Job Type
+                </a>
+                <ul class="list-unstyled collapse in" id="filter-tags">
+                    <li><a href="#"><i class="fa fa-fw fa-check-square-o"></i> Full-time</a></li>
+                    <li><a href="#"><i class="fa fa-fw fa-square-o"></i> Contract</a></li>
+                    <li><a href="#"><i class="fa fa-fw fa-square-o"></i> Part-time</a></li>
+                </ul>
+            </div>
+
+            <div class="filter-box">
+                <a class="filter-handle" data-toggle="collapse" href="#filter-tags" aria-expanded="true" aria-controls="filter-tags">
+                    <i class="fa fa-tags"></i> Tags
+                </a>
+                <ul class="list-unstyled collapse in" id="filter-tags">
+                    <li><a href="#"><i class="fa fa-fw fa-check-square-o"></i> Symfony</a></li>
+                    <li><a href="#"><i class="fa fa-fw fa-square-o"></i> PHP5</a></li>
+                    <li><a href="#"><i class="fa fa-fw fa-square-o"></i> ElasticSearch</a></li>
+                    <li><a href="#"><i class="fa fa-fw fa-check-square-o"></i> Solr</a></li>
+                    <li><a href="#"><i class="fa fa-fw fa-square-o"></i> MySql</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="col-md-8 job-list">
+            @foreach($jobs as $job)
+            <div class="job-list-item" id="job-{{ $job->jobid }}">
+                <h3><a href="#">{{ $job->jobtitle }}</a></h3>
+                <div class="text-muted small">
+                    Posted by <strong>{{ $job->job_company }}</strong> 2 days ago {{ $job->jobpostdate }}
+                </div>
+                <p>{{ substr(strip_tags($job->description), 0, 250) }}&hellip;</p>
+
+                <div class="meta clearfix" style="background-color: #fafafa; padding: 5px 10px">
+                    <div class="pull-left">
+                        <i class="fa fa-map-marker"></i> {{ $job->city }}, {{ $job->province }}
+                    </div>
+                    <div class="pull-right">
+                        <a class="btn btn-default btn-xs"><i class="fa fa-save"></i> Save</a>
+                        <a class="btn btn-default btn-xs"><i class="fa fa-envelope-o"></i> Email</a>
+                        <a class="btn btn-primary btn-sm"><i class="fa fa-save"></i> Apply</a>
+                    </div>
+                </div>
+
+            </div>
+            @endforeach
+        </div>
+        <div class="col-md-2 col-sm-12">
+            <h4>Sponsored <small>Company Logo</small></h4>
+
+            @for ($i = 0; $i < 5; $i++)
+            <p>
+                <img src="http://lorempixel.com/200/120/abstract/{{ $i }}" alt="Image {{$i}}" class="img-thumbnail">
+            </p>
+            @endfor
+        </div>
     </div>
-    @endforeach
+    @endif
 
 @endsection
