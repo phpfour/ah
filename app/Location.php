@@ -4,21 +4,14 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Job extends Model
+class Location extends Model
 {
     /**
      * The database table used by the model.
      *
      * @var string
      */
-    protected $table = 'phpjob_jobs';
-
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
-    protected $fillable = ['jobtitle', 'description', 'job_company'];
+    protected $table = 'phpjob_zipcodes';
 
     /**
      * Elasticsearch mapping
@@ -27,15 +20,19 @@ class Job extends Model
      */
     protected $mappingProperties = [
         'properties' => [
-            'title' => [
+            'city' => [
                 'type'     => 'string',
                 "analyzer" => "standard",
             ],
-            'description' => [
+            'state' => [
                 'type'     => 'string',
                 "analyzer" => "standard",
             ],
-            'company' => [
+            'country' => [
+                'type'     => 'string',
+                "analyzer" => "standard",
+            ],
+            'zip_code' => [
                 'type'     => 'string',
                 "analyzer" => "standard",
             ],
@@ -47,8 +44,6 @@ class Job extends Model
             ]
         ]
     ];
-
-    public $highlight;
 
     public function getElasticsearchMapping()
     {

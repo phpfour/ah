@@ -5,7 +5,7 @@
 @section('content')
 <div class="row">
 
-    <form class="form-inline" role="form" method="post">
+    <form action="/search" class="form-inline" role="form" method="get">
         <div class="form-group">
             <input name="keywords" type="text" class="form-control" style="width: 300px;" placeholder="Job title, keywords, or company name" />
         </div>

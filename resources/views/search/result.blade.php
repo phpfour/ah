@@ -4,9 +4,10 @@
 
 @section('content')
 
-    @foreach($jobs as $job)
+    @foreach($results as $job)
     <div>
-        <h4>{{{ $job->jobtitle }}}</h4>
+        <h4>{!! $job->title !!}</h4>
+        <p>{!! $job->blurb !!}</p>
     </div>
     @endforeach
 
