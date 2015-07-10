@@ -21,9 +21,9 @@
                     <button class="btn btn-primary">Apply via Email</button>
                 </p>
                 <p>
-                    <button class="btn btn-default btn-sm"><i class="fa fa-save"></i> Save</button>
-                    <button class="btn btn-default btn-sm"><i class="fa fa-link"></i> Go to source</button>
-                    <button class="btn btn-default btn-sm"><i class="fa fa-share-alt"></i> Share</button>
+                    <a href="#" class="btn btn-default btn-sm"><i class="fa fa-save"></i> Save</a>
+                    <a href="{{ $job->sourceUrl }}" target="_blank" class="btn btn-default btn-sm"><i class="fa fa-link"></i> Go to source</a>
+                    <a href="#" class="btn btn-default btn-sm"><i class="fa fa-share-alt"></i> Share</a>
                 </p>
             </div>
         </div>

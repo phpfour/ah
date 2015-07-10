@@ -36,7 +36,7 @@ class JobPresenter extends Presenter
 
     public function presentMapUrl()
     {
-        return "https://www.google.com/maps/?q={$this->object->job_ziplon},{$this->object->job_ziplat}";
+        return "https://www.google.com/maps/?q={$this->object->job_ziplat},{$this->object->job_ziplon}";
     }
 
 
