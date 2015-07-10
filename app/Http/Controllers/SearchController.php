@@ -38,16 +38,11 @@ class SearchController extends Controller
         $range  = [$offset + 1, $offset + $limit];
 
         $params = [
-            'keywords' => Input::get('keywords'),
-            'address'  => null
+            'keywords'    => Input::get('keywords'),
+            'location'    => Input::get('location'),
+            'location_id' => Input::get('location_id'),
+            'radius'      => Input::get('radius')
         ];
-
-        if (Input::get('location')) {
-            $locations = array_map('trim', explode(';', Input::get('locations')));
-            foreach ($locations as $location) {
-                $params['address'][] = $location;
-            }
-        }
 
         $results = $this->searchService->query($params, $offset, $limit);
         $count = $this->searchService->count($params);
@@ -65,7 +60,7 @@ class SearchController extends Controller
     private function getPreviousPageUrl($count, $limit)
     {
         if ($count <= $limit) {
-            return;
+            return false;
         }
 
         $page = (int) Input::get('page', 1);
@@ -75,12 +70,14 @@ class SearchController extends Controller
             $page--;
             return Request::url() . '?' . http_build_query(array_merge(Request::query(), compact('page')));
         }
+
+        return false;
     }
 
     private function getNextPageUrl($count, $limit)
     {
         if ($count <= $limit) {
-            return;
+            return false;
         }
 
         $page = (int) Input::get('page', 1);
@@ -90,5 +87,7 @@ class SearchController extends Controller
             $page++;
             return Request::url() . '?' . http_build_query(array_merge(Request::query(), compact('page')));
         }
+
+        return false;
     }
 }

@@ -4,17 +4,13 @@
 
 @section('content')
 
-@include('partials.searchform')
+    @include('partials.searchform')
 
-@if(Request::method() === 'POST')
-<div class="row">
-    <div class="col-md-3">
-        sidebar
+    <div class="row">
+        <div class="panel panel-default">
+            <div class="panel-body">Please use the search bar above to search for jobs according to your requirements.</div>
+        </div>
     </div>
-    <div class="col-md-9">
-        search result
-    </div>
-</div>
-@endif
+
 
 @endsection

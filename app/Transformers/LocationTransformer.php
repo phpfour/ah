@@ -26,7 +26,7 @@ class LocationTransformer implements TransformerInterface
         }
 
         if (!empty($model->lat) && !empty($model->lon)) {
-            $document->set('location', $model->lat . ',' . $model->lon);
+            $document->set('location', ['lon' => $model->lon, 'lat' => $model->lat]);
         }
 
         $fullAddress = [];

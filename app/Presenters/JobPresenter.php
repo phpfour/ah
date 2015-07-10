@@ -6,7 +6,7 @@ use Robbo\Presenter\Presenter;
 
 class JobPresenter extends Presenter
 {
-    protected $blurbLength = 200;
+    protected $blurbLength = 300;
     protected $highlight;
 
     public function presentId()
@@ -34,7 +34,8 @@ class JobPresenter extends Presenter
         if (isset($this->highlight['description'])) {
             $string = $this->highlight['description'][0];
         } else {
-            $string = substr($this->object->description, 0, $this->blurbLength);
+            $string = $this->removeExtraSpace($this->object->description);
+            $string = substr($string, 0, $this->blurbLength);
         }
 
         $string = (strlen($string) === $this->blurbLength) ? $string .= '&hellip;' : $string;
@@ -54,5 +55,10 @@ class JobPresenter extends Presenter
     public function setHighlight($highlight)
     {
         $this->highlight = $highlight;
+    }
+
+    private function removeExtraSpace($string)
+    {
+        return trim(preg_replace('/[\s\t\n\r\s]+/', ' ', $string));
     }
 }

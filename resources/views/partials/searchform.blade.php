@@ -1,6 +1,8 @@
 <div class="row">
 
-    <div class="col-md-12" style="margin-bottom: 20px;">
+    <div class="col-md-12 well" style="margin-bottom: 20px;">
+        <h4>Search Job</h4>
+
         <form action="/search" class="form-inline" role="form" method="get">
             <div class="form-group">
                 <input name="keywords" type="text" value="{{ $post['keywords'] or '' }}"

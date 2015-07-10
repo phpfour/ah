@@ -9,8 +9,11 @@ use App\Transformers\JobTransformer;
 
 use Elastica\Query;
 use Elastica\Result;
-use Elastica\Query as ElasticaQuery;
+use Elastica\Query\Filtered;
+use Elastica\Query\MatchAll;
 use Elastica\Query\QueryString;
+use Elastica\Query as ElasticaQuery;
+use Elastica\Filter\GeoDistance;
 
 class Search
 {
@@ -89,11 +92,43 @@ class Search
      */
     private function prepareQuery($params, $start = null, $limit = null)
     {
-        $queryString = new QueryString($params['keywords']);
-        $queryString->setDefaultOperator('AND')
-            ->setFields(['title', 'description']);
+        $query  = null;
+        $filter = null;
+        $sort   = ['_score' => 'desc'];
 
-        $elasticaQuery = new ElasticaQuery($queryString);
+        if (!empty($params['keywords'])) {
+            $query = new QueryString($params['keywords']);
+            $query->setDefaultOperator('AND')
+                ->setFields(['title', 'description']);
+        }
+
+        if (!empty($params['location'])) {
+
+            $location = Location::find($params['location_id']);
+
+            $filter = new GeoDistance('location', [
+                'lat' => $location->lat,
+                'lon' => $location->lon
+            ], $params['radius'] . 'mi');
+
+            $sort = [
+                '_geo_distance' => [
+                    'jobs.location' => [(float) $location->lon, (float) $location->lat],
+                    'order' => 'asc',
+                    'unit' => 'mi'
+                ]
+            ];
+
+        }
+
+        if (empty($params['keywords']) && empty($params['location'])) {
+            $query = new MatchAll();
+        }
+
+        $filteredQuery = new Filtered($query, $filter);
+
+        $elasticaQuery = new ElasticaQuery($filteredQuery);
+        $elasticaQuery->addSort($sort);
 
         if (!is_null($start) && !is_null($limit)) {
             $elasticaQuery
@@ -102,28 +137,10 @@ class Search
             ;
         }
 
-        if (!empty($params['location'])) {
-
-            $location = Location::find($params['location']);
-
-            $elasticaQuery->addSort([
-                '_geo_distance' => [
-                    'jobs.location' => [$location->lat, $location->lon],
-                    'order' => 'asc',
-                    'unit' => 'km'
-                ]
-            ]);
-
-        } else {
-
-            $elasticaQuery->setSort(['_score' => 'desc']);
-
-        }
-
         $elasticaQuery->setHighlight([
-            'order' => 'score',
+            'order'  => 'score',
             'fields' => [
-                'title' => ['fragment_size' => 100],
+                'title'       => ['fragment_size' => 100],
                 'description' => ['fragment_size' => 200]
             ]
         ]);
@@ -136,8 +153,7 @@ class Search
         $jobs = [];
 
         foreach ($result as $document) {
-            $model = new Job();
-            $jobs[] = $this->jobTransformer->toPresenter($document, $model);
+            $jobs[] = $this->jobTransformer->toPresenter($document, new Job());
         }
 
         return $jobs;
