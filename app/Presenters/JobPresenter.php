@@ -9,6 +9,26 @@ class JobPresenter extends Presenter
     protected $blurbLength = 200;
     protected $highlight;
 
+    public function presentId()
+    {
+        return $this->object->jobid;
+    }
+
+    public function presentCompany()
+    {
+        return $this->object->job_company ?: 'N/A';
+    }
+
+    public function presentPostDate()
+    {
+        return date('m.d.Y', strtotime($this->object->jobpostdate));
+    }
+
+    public function presentLocation()
+    {
+        return $this->object->city;
+    }
+
     public function presentBlurb()
     {
         if (isset($this->highlight['description'])) {

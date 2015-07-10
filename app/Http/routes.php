@@ -11,8 +11,6 @@
 |
 */
 
-Route::get('/', function () {
-    return view('home');
-});
-
+Route::get('/', 'SearchController@home');
 Route::get('/search', 'SearchController@search');
+Route::get('/autocomplete', 'SearchController@autocomplete');

@@ -8,6 +8,7 @@ use App\Utility\Elastica;
 use App\Transformers\JobTransformer;
 
 use Elastica\Query;
+use Elastica\Result;
 use Elastica\Query as ElasticaQuery;
 use Elastica\Query\QueryString;
 
@@ -45,23 +46,51 @@ class Search
         return $this->elastica->count($query, 'jobs');
     }
 
+    public function autosuggest($text)
+    {
+        $queryString = new QueryString($text);
+
+        $elasticaQuery = new ElasticaQuery($queryString);
+        $elasticaQuery->setSize(10);
+
+        $result = $this->elastica->search($elasticaQuery, 'locations');
+        return $this->prepareSuggestResult($result);
+    }
+
+    private function prepareSuggestResult($results)
+    {
+        $suggests = [];
+
+        /** @var Result $result */
+        foreach ($results as $result) {
+
+            $suggests[] = [
+                'id'   => $result->getId(),
+                'name' => $result->zip_code,
+            ];
+
+            $suggests[] = [
+                'id'   => $result->getId(),
+                'name' => $result->city . ', ' . $result->state,
+            ];
+
+            $suggests[] = [
+                'id'   => $result->getId(),
+                'name' => $result->full_address,
+            ];
+
+        }
+
+        return $suggests;
+    }
+
     /**
-     * Prepare the queries array
-     *
-     * @param $params
      * @return ElasticaQuery
      */
     private function prepareQuery($params, $start = null, $limit = null)
     {
-        /*$baseQuery = new \Elastica\Query\Match();
-        $baseQuery->setFieldQuery('jobs.title', $params['keywords']);
-        $baseQuery->setFieldFuzziness('jobs.title', 0.7);
-        $baseQuery->setFieldMinimumShouldMatch('jobs.title', '80%');
-
-        $query = \Elastica\Query::create($filtered);*/
-
         $queryString = new QueryString($params['keywords']);
-        $queryString->setDefaultOperator('OR')
+        $queryString->setDefaultOperator('AND')
             ->setFields(['title', 'description']);
 
         $elasticaQuery = new ElasticaQuery($queryString);
@@ -94,7 +123,7 @@ class Search
         $elasticaQuery->setHighlight([
             'order' => 'score',
             'fields' => [
-                'title' => ['fragment_size' => 200],
+                'title' => ['fragment_size' => 100],
                 'description' => ['fragment_size' => 200]
             ]
         ]);

@@ -2,9 +2,9 @@
 
 namespace App\Transformers;
 
-use App\Presenters\JobPresenter;
 use Elastica\Result;
 use Elastica\Document;
+use App\Presenters\JobPresenter;
 use Illuminate\Database\Eloquent\Model;
 
 class JobTransformer implements TransformerInterface
@@ -52,20 +52,7 @@ class JobTransformer implements TransformerInterface
      */
     public function toModel(Result $result, Model $model)
     {
-        $exclude = [
-            'location',
-            'full_address'
-        ];
-
-        $filtered = array_diff_key($result->getSource(), array_flip($exclude));
-
-        $model->exists = true;
-        $model->id = $result->getId();
-
-        foreach ($this->mapping as $field => $key) {
-            $model->$field = $filtered[$key];
-        }
-
+        $model = $model->find($result->getId());
         return $model;
     }
 

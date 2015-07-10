@@ -114,10 +114,36 @@ class PopulateElasticsearch extends Command
         }
 
         if (!$index->exists()) {
-            $index->create(['mappings' => [
-                'jobs'      => (new Job)->getElasticsearchMapping(),
-                'locations' => (new Location())->getElasticsearchMapping()
-            ]]);
+            $index->create([
+                'settings' => [
+                    'analysis' => [
+                        'analyzer' => [
+                            'nGram_analyzer' => [
+                                'type' => 'custom',
+                                'tokenizer' => 'whitespace',
+                                'filter' => ['lowercase', 'asciifolding', 'nGram_filter']
+                            ],
+                            'whitespace_analyzer' => [
+                                'type' => 'custom',
+                                'tokenizer' => 'whitespace',
+                                'filter' => ['lowercase', 'asciifolding']
+                            ]
+                        ],
+                        'filter' => [
+                            'nGram_filter' => [
+                                'type' => 'nGram',
+                                'min_gram' => 2,
+                                'max_gram' => 20,
+                                'token_chars' => ['letter', 'digit', 'punctuation', 'symbol']
+                            ]
+                        ]
+                    ]
+                ],
+                'mappings' => [
+                    'jobs'      => (new Job)->getElasticsearchMapping(),
+                    'locations' => (new Location())->getElasticsearchMapping()
+                ]
+            ]);
         }
     }
 

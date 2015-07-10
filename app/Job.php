@@ -14,6 +14,13 @@ class Job extends Model
     protected $table = 'phpjob_jobs';
 
     /**
+     * The primary key for the model.
+     *
+     * @var string
+     */
+    protected $primaryKey = 'jobid';
+
+    /**
      * The attributes that are mass assignable.
      *
      * @var array

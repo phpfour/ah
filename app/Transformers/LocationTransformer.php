@@ -2,6 +2,7 @@
 
 namespace App\Transformers;
 
+use App\Presenters\LocationPresenter;
 use Elastica\Result;
 use Elastica\Document;
 use Illuminate\Database\Eloquent\Model;
@@ -68,5 +69,18 @@ class LocationTransformer implements TransformerInterface
         $model->fill($filtered);
 
         return $model;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function toPresenter(Result $result, Model $model)
+    {
+        $toModel = $this->toModel($result, $model);
+
+        $locationPresenter = new LocationPresenter($toModel);
+        $locationPresenter->setHighlight($result->getHighlights());
+
+        return $locationPresenter;
     }
 }

@@ -19,27 +19,27 @@ class Location extends Model
      * @var array
      */
     protected $mappingProperties = [
+        '_all'       => [
+            "index_analyzer"  => "nGram_analyzer",
+            "search_analyzer" => "whitespace_analyzer"
+        ],
         'properties' => [
-            'city' => [
-                'type'     => 'string',
-                "analyzer" => "standard",
+            'city'         => [
+                'type' => 'string'
             ],
-            'state' => [
-                'type'     => 'string',
-                "analyzer" => "standard",
+            'state'        => [
+                'type' => 'string'
             ],
-            'country' => [
-                'type'     => 'string',
-                "analyzer" => "standard",
+            'country'      => [
+                'type' => 'string'
             ],
-            'zip_code' => [
-                'type'     => 'string',
-                "analyzer" => "standard",
+            'zip_code'     => [
+                'type' => 'string'
             ],
             'full_address' => [
                 'type' => 'string'
             ],
-            'location' => [
+            'location'     => [
                 'type' => 'geo_point',
             ]
         ]

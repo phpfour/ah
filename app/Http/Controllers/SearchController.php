@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Job;
 use App\Services\Search as SearchService;
 
 use Input;
@@ -17,9 +16,19 @@ class SearchController extends Controller
         $this->searchService = $searchService;
     }
 
+    public function home()
+    {
+        return view('home', ['post' => []]);
+    }
+
     public function search()
     {
         return view('search.result', $this->prepareSearchResultsData());
+    }
+
+    public function autocomplete()
+    {
+        return $this->searchService->autosuggest(Input::get('q'));
     }
 
     private function prepareSearchResultsData()
@@ -41,15 +50,15 @@ class SearchController extends Controller
         }
 
         $results = $this->searchService->query($params, $offset, $limit);
-
         $count = $this->searchService->count($params);
 
         return [
-            'results' => $results,
+            'post'            => Request::query(),
+            'results'         => $results,
             'previousPageUrl' => $this->getPreviousPageUrl($count, $limit),
-            'nextPageUrl' => $this->getNextPageUrl($count, $limit),
-            'range' => $range,
-            'count' => $count,
+            'nextPageUrl'     => $this->getNextPageUrl($count, $limit),
+            'range'           => $range,
+            'count'           => $count,
         ];
     }
 

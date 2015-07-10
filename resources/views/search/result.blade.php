@@ -6,8 +6,32 @@
 
     @include('partials.searchform')
 
-    @if(Request::method() === 'POST')
     <div class="row">
+
+        <div class="col-md-8 job-list">
+            @foreach($results as $job)
+            <div class="job-list-item" id="job-{{ $job->id }}">
+                <h3><a href="/jobs/{{ $job->id }}">{!! $job->title !!}</a></h3>
+                <div class="text-muted small">
+                    Posted by <strong>{{ $job->company }}</strong> on {{ $job->postDate }}
+                </div>
+                <p>{!! $job->blurb !!}</p>
+
+                <div class="meta clearfix" style="background-color: #fafafa; padding: 5px 10px">
+                    <div class="pull-left">
+                        <i class="fa fa-map-marker"></i> {{ $job->location }}
+                    </div>
+                    <div class="pull-right">
+                        <a class="btn btn-default btn-xs"><i class="fa fa-save"></i> Save</a>
+                        <a class="btn btn-default btn-xs"><i class="fa fa-envelope-o"></i> Email</a>
+                        <a class="btn btn-primary btn-sm"><i class="fa fa-save"></i> Apply</a>
+                    </div>
+                </div>
+
+            </div>
+            @endforeach
+        </div>
+
         <div class="col-md-2">
 
             <div class="filter-box">
@@ -60,39 +84,9 @@
                 </ul>
             </div>
         </div>
-        <div class="col-md-8 job-list">
-            @foreach($jobs as $job)
-            <div class="job-list-item" id="job-{{ $job->jobid }}">
-                <h3><a href="#">{{ $job->jobtitle }}</a></h3>
-                <div class="text-muted small">
-                    Posted by <strong>{{ $job->job_company }}</strong> 2 days ago {{ $job->jobpostdate }}
-                </div>
-                <p>{{ substr(strip_tags($job->description), 0, 250) }}&hellip;</p>
 
-                <div class="meta clearfix" style="background-color: #fafafa; padding: 5px 10px">
-                    <div class="pull-left">
-                        <i class="fa fa-map-marker"></i> {{ $job->city }}, {{ $job->province }}
-                    </div>
-                    <div class="pull-right">
-                        <a class="btn btn-default btn-xs"><i class="fa fa-save"></i> Save</a>
-                        <a class="btn btn-default btn-xs"><i class="fa fa-envelope-o"></i> Email</a>
-                        <a class="btn btn-primary btn-sm"><i class="fa fa-save"></i> Apply</a>
-                    </div>
-                </div>
 
-            </div>
-            @endforeach
-        </div>
-        <div class="col-md-2 col-sm-12">
-            <h4>Sponsored <small>Company Logo</small></h4>
 
-            @for ($i = 0; $i < 5; $i++)
-            <p>
-                <img src="http://lorempixel.com/200/120/abstract/{{ $i }}" alt="Image {{$i}}" class="img-thumbnail">
-            </p>
-            @endfor
-        </div>
     </div>
-    @endif
 
 @endsection
