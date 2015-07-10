@@ -46,8 +46,10 @@ class JobPresenter extends Presenter
         return "<img src=\"http://maps.googleapis.com/maps/api/staticmap?center={$latLon}&zoom=14&scale=false&size=350x200&maptype=roadmap&format=png&visual_refresh=true&markers=size:mid%7Ccolor:red%7Clabel:1%7C{$latLon}\" alt=\"Google Map of {$this->presentCompany()}\">";
     }
 
-
-
+    public function presentDescription()
+    {
+        return $this->removeExtraLineBreaks(nl2br($this->object->description));
+    }
 
     public function presentBlurb()
     {
@@ -80,5 +82,10 @@ class JobPresenter extends Presenter
     private function removeExtraSpace($string)
     {
         return trim(preg_replace('/[\s\t\n\r\s]+/', ' ', $string));
+    }
+
+    private function removeExtraLineBreaks($html)
+    {
+        return trim(preg_replace('#(<br */?>\s*)+#i', '<br />', $html));
     }
 }
