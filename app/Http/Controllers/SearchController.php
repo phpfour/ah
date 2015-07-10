@@ -35,7 +35,6 @@ class SearchController extends Controller
     {
         $limit  = 20;
         $offset = (Input::get('page', 1) - 1) * $limit;
-        $range  = [$offset + 1, $offset + $limit];
 
         $params = [
             'keywords'    => Input::get('keywords'),
@@ -52,7 +51,7 @@ class SearchController extends Controller
             'results'         => $results,
             'previousPageUrl' => $this->getPreviousPageUrl($count, $limit),
             'nextPageUrl'     => $this->getNextPageUrl($count, $limit),
-            'range'           => $range,
+            'range'           => [$offset + 1, ($count > $offset + $limit) ? $offset + $limit : $count],
             'count'           => $count,
         ];
     }

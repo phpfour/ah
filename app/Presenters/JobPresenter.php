@@ -39,9 +39,6 @@ class JobPresenter extends Presenter
         return "https://www.google.com/maps/?q={$this->object->job_ziplat},{$this->object->job_ziplon}";
     }
 
-
-
-
     public function presentBlurb()
     {
         if (isset($this->highlight['description'])) {
