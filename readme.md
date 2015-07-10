@@ -1,27 +1,57 @@
-## Laravel PHP Framework
+## Activehire Laravel Demo
 
-[![Build Status](https://travis-ci.org/laravel/framework.svg)](https://travis-ci.org/laravel/framework)
-[![Total Downloads](https://poser.pugx.org/laravel/framework/d/total.svg)](https://packagist.org/packages/laravel/framework)
-[![Latest Stable Version](https://poser.pugx.org/laravel/framework/v/stable.svg)](https://packagist.org/packages/laravel/framework)
-[![Latest Unstable Version](https://poser.pugx.org/laravel/framework/v/unstable.svg)](https://packagist.org/packages/laravel/framework)
-[![License](https://poser.pugx.org/laravel/framework/license.svg)](https://packagist.org/packages/laravel/framework)
+This is a demo application that was prepared for Activehire.com. Currently it has the following features:
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable, creative experience to be truly fulfilling. Laravel attempts to take the pain out of development by easing common tasks used in the majority of web projects, such as authentication, routing, sessions, queueing, and caching.
+- Laravel 5.1 
+- Laravel Elixir with Bower and Gulp support
+- Elasticsearch indexer with batch indexing support
+- Keywords search with all standard operators
+- Partial word match
+- Keyword highlight in result
+- Location auto-complete
+- Geo-location search with flexible radius
+- Search result display with result count, current range and prev/next
+- Job details page
 
-Laravel is accessible, yet powerful, providing powerful tools needed for large, robust applications. A superb inversion of control container, expressive migration system, and tightly integrated unit testing support give you the tools you need to build any application with which you are tasked.
+### Files
 
-## Official Documentation
+Hare are the important files:
 
-Documentation for the framework can be found on the [Laravel website](http://laravel.com/docs).
+**Command**
+- app/Console/Commands/PopulateElasticsearch.php
 
-## Contributing
+**Controllers**
+- app/Http/Controllers/SearchController.php
+- app/Http/Controllers/JobController.php
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](http://laravel.com/docs/contributions).
+**Model**
+- app/Job.php
+- app/Location.php
 
-## Security Vulnerabilities
+**Views**
+- resources/views/home.blade.php
+- resources/views/search/result.blade.php
+- resources/views/job/show.blade.php
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell at taylor@laravel.com. All security vulnerabilities will be promptly addressed.
+**Services**
+- app/Services/Search.php
 
-### License
+**Transformers**
+- app/Transformers/TransformerInterface.php
+- app/Transformers/JobTransformer.php
+- app/Transformers/LocationTransformer.php
 
-The Laravel framework is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT)
+**View Presenters**
+- app/Presenters/LocationPresenter.php
+- app/Presenters/JobPresenter.php
+
+**Configurations**
+- config/app.php
+- config/elasticsearch.php
+- package.json
+- bower.json
+- gulpfile.js
+
+**Frontend Assets**
+- resources/assets/js/app.js
+- resources/assets/less/app.less
