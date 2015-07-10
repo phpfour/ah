@@ -8,6 +8,7 @@ use App\Utility\Elastica;
 use App\Transformers\JobTransformer;
 use App\Transformers\LocationTransformer;
 
+use DB;
 use Illuminate\Console\Command;
 
 /**
@@ -157,7 +158,7 @@ class PopulateElasticsearch extends Command
 
     private function indexJobs()
     {
-        $this->total = Job::all()->count();
+        $this->total = DB::table('phpjob_jobs')->count();
         $this->processed = 0;
 
         $this->write('info', '=== [JOBS] ===');
@@ -184,7 +185,7 @@ class PopulateElasticsearch extends Command
 
     private function indexLocations()
     {
-        $this->total = Location::all()->count();
+        $this->total = DB::table('phpjob_zipcodes')->count();
         $this->processed = 0;
 
         $this->write('info', '=== [LOCATIONS] ===');
