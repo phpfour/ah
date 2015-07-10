@@ -7,6 +7,14 @@ use Elastica\Document;
 use App\Presenters\JobPresenter;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * Job Transformer
+ *
+ * Transform job entity data between Eloquent and Elasticsearch Document. Also
+ * adds support for presenter.
+ *
+ * @author Mohammad Emran Hasan <phpfour@gmail.com>
+ */
 class JobTransformer implements TransformerInterface
 {
     protected $mapping = [

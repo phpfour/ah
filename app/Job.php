@@ -4,6 +4,11 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * Job Model
+ *
+ * @author Mohammad Emran Hasan <phpfour@gmail.com>
+ */
 class Job extends Model
 {
     /**

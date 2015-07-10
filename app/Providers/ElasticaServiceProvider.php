@@ -7,6 +7,11 @@ use Elastica\Client;
 use App\Utility\Elastica;
 use Illuminate\Support\ServiceProvider;
 
+/**
+ * Elastica Service Provider
+ *
+ * @author Mohammad Emran Hasan <phpfour@gmail.com>
+ */
 class ElasticaServiceProvider extends ServiceProvider
 {
     /**

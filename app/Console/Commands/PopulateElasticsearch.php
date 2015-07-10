@@ -10,6 +10,14 @@ use App\Transformers\LocationTransformer;
 
 use Illuminate\Console\Command;
 
+/**
+ * Populate Elasticsearch
+ *
+ * Index jobs and locations into Elasticsearch. Supports large volume of documents by
+ * handling chunk of documents at one go.
+ *
+ * @author Mohammad Emran Hasan <phpfour@gmail.com>
+ */
 class PopulateElasticsearch extends Command
 {
     /**
@@ -201,13 +209,6 @@ class PopulateElasticsearch extends Command
         $this->write('info', '=== [/LOCATIONS] ===');
     }
 
-    /**
-     * Output message to the terminal.
-     *
-     * @param  string $type
-     * @param  string $message
-     * @return void
-     */
     protected function write($type, $message)
     {
         if ($this->debug) {

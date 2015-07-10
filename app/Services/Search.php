@@ -15,6 +15,13 @@ use Elastica\Query\QueryString;
 use Elastica\Query as ElasticaQuery;
 use Elastica\Filter\GeoDistance;
 
+/**
+ * Search Service
+ *
+ * Handles the core search logic of the application.
+ *
+ * @author Mohammad Emran Hasan <phpfour@gmail.com>
+ */
 class Search
 {
     /**
@@ -96,13 +103,15 @@ class Search
         $filter = null;
         $sort   = ['_score' => 'desc'];
 
+        // We'd like to search in both title and description for keywords
         if (!empty($params['keywords'])) {
             $query = new QueryString($params['keywords']);
             $query->setDefaultOperator('AND')
                 ->setFields(['title', 'description']);
         }
 
-        if (!empty($params['location'])) {
+        // Add location filter is location is selected from autosuggest
+        if (!empty($params['location_id'])) {
 
             $location = Location::find($params['location_id']);
 
@@ -111,6 +120,7 @@ class Search
                 'lon' => $location->lon
             ], $params['radius'] . 'mi');
 
+            // Sort by nearest hit
             $sort = [
                 '_geo_distance' => [
                     'jobs.location' => [(float) $location->lon, (float) $location->lat],
@@ -121,15 +131,16 @@ class Search
 
         }
 
-        if (empty($params['keywords']) && empty($params['location'])) {
+        // If neither keyword nor location supplied, then return all
+        if (empty($params['keywords']) && empty($params['location_id'])) {
             $query = new MatchAll();
         }
 
-        $filteredQuery = new Filtered($query, $filter);
-
-        $elasticaQuery = new ElasticaQuery($filteredQuery);
+        // We need a filtered query
+        $elasticaQuery = new ElasticaQuery(new Filtered($query, $filter));
         $elasticaQuery->addSort($sort);
 
+        // Offset and limits
         if (!is_null($start) && !is_null($limit)) {
             $elasticaQuery
                 ->setFrom($start)
@@ -137,6 +148,7 @@ class Search
             ;
         }
 
+        // Set up the highlight
         $elasticaQuery->setHighlight([
             'order'  => 'score',
             'fields' => [

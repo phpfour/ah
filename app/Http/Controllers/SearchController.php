@@ -2,11 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\Services\Search as SearchService;
-
 use Input;
 use Request;
+use App\Services\Search as SearchService;
 
+/**
+ * Search Controller
+ *
+ * @author Mohammad Emran Hasan <phpfour@gmail.com>
+ */
 class SearchController extends Controller
 {
     private $searchService;
@@ -44,15 +48,15 @@ class SearchController extends Controller
         ];
 
         $results = $this->searchService->query($params, $offset, $limit);
-        $count = $this->searchService->count($params);
+        $count   = $this->searchService->count($params);
 
         return [
-            'post'            => Request::query(),
-            'results'         => $results,
-            'previousPageUrl' => $this->getPreviousPageUrl($count, $limit),
-            'nextPageUrl'     => $this->getNextPageUrl($count, $limit),
-            'range'           => [$offset + 1, ($count > $offset + $limit) ? $offset + $limit : $count],
             'count'           => $count,
+            'results'         => $results,
+            'post'            => Request::query(),
+            'nextPageUrl'     => $this->getNextPageUrl($count, $limit),
+            'previousPageUrl' => $this->getPreviousPageUrl($count, $limit),
+            'range'           => [$offset + 1, ($count > $offset + $limit) ? $offset + $limit : $count],
         ];
     }
 
@@ -62,9 +66,8 @@ class SearchController extends Controller
             return false;
         }
 
-        $page = (int) Input::get('page', 1);
+        $page = (int)Input::get('page', 1);
 
-        // Show previous page if possible
         if ($page > 1) {
             $page--;
             return Request::url() . '?' . http_build_query(array_merge(Request::query(), compact('page')));
@@ -79,9 +82,8 @@ class SearchController extends Controller
             return false;
         }
 
-        $page = (int) Input::get('page', 1);
+        $page = (int)Input::get('page', 1);
 
-        // Show next page if possible
         if ($page * $limit < $count) {
             $page++;
             return Request::url() . '?' . http_build_query(array_merge(Request::query(), compact('page')));

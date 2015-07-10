@@ -4,9 +4,28 @@ namespace App\Presenters;
 
 use Robbo\Presenter\Presenter;
 
+/**
+ * Job Presenter
+ *
+ * Handles the display logic of showing job entity data in the view layer.
+ *
+ * @author Mohammad Emran Hasan <phpfour@gmail.com>
+ * @author Anis Uddin Ahmad <anis.programmer@gmail.com>
+ */
 class JobPresenter extends Presenter
 {
+    /**
+     * Length of description to show on search results page
+     *
+     * @var int
+     */
     protected $blurbLength = 300;
+
+    /**
+     * Keyword highlight on search result
+     *
+     * @var array
+     */
     protected $highlight;
 
     public function presentId()
@@ -43,7 +62,9 @@ class JobPresenter extends Presenter
     {
         $latLon = "{$this->object->job_ziplat},{$this->object->job_ziplon}";
 
-        return "<img src=\"http://maps.googleapis.com/maps/api/staticmap?center={$latLon}&zoom=14&scale=false&size=350x200&maptype=roadmap&format=png&visual_refresh=true&markers=size:mid%7Ccolor:red%7Clabel:1%7C{$latLon}\" alt=\"Google Map of {$this->presentCompany()}\">";
+        return "<img src=\"http://maps.googleapis.com/maps/api/staticmap?center={$latLon}&zoom=14&scale=false"
+            . "&size=350x200&maptype=roadmap&format=png&visual_refresh=true&markers=size:mid%7Ccolor:red%7Clabel:1%7C{$latLon}\""
+            . "alt=\"Google Map of {$this->presentCompany()}\">";
     }
 
     public function presentDescription()

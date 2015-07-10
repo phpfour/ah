@@ -4,6 +4,11 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * Location Model
+ *
+ * @author Mohammad Emran Hasan <phpfour@gmail.com>
+ */
 class Location extends Model
 {
     /**

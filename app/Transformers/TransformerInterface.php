@@ -7,6 +7,13 @@ use Elastica\Document;
 use Robbo\Presenter\Presenter;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * TransformerInterface
+ *
+ * A contract for transformer.
+ *
+ * @author Mohammad Emran Hasan <phpfour@gmail.com>
+ */
 interface TransformerInterface
 {
     /**

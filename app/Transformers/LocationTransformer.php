@@ -2,11 +2,18 @@
 
 namespace App\Transformers;
 
-use App\Presenters\LocationPresenter;
 use Elastica\Result;
 use Elastica\Document;
+use App\Presenters\LocationPresenter;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * Location Transformer
+ *
+ * Transform location entity data between Eloquent and Elasticsearch Document.
+ *
+ * @author Mohammad Emran Hasan <phpfour@gmail.com>
+ */
 class LocationTransformer implements TransformerInterface
 {
     /**

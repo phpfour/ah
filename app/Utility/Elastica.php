@@ -8,6 +8,13 @@ use Elastica\Query;
 use Elastica\Request;
 use Elastica\Search;
 
+/**
+ * Elastica
+ *
+ * A handy abstraction layer for the Elastica library.
+ *
+ * @author Mohammad Emran Hasan <phpfour@gmail.com>
+ */
 class Elastica
 {
     /**

@@ -2,32 +2,25 @@
 
 namespace App\Http\Controllers;
 
-use App\Presenters\JobPresenter;
-use App\Services\Search as SearchService;
 use App\Job;
-
+use App\Presenters\JobPresenter;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use App\Transformers\JobTransformer;
-use Illuminate\Http\Response;
-use Input;
-use Request;
 
+/**
+ * Job Controller
+ *
+ * @author Anis Uddin Ahmad <anis.programmer@gmail.com>
+ */
 class JobController extends Controller
 {
-    /**
-     * @param $jobid
-     *
-     * @return \Illuminate\View\View
-     */
-    public function show($jobid)
+    public function show($jobId)
     {
         try {
-            $job = Job::findOrFail($jobid);
+            $job = Job::findOrFail($jobId);
         } catch (ModelNotFoundException $e) {
             abort(404);
         }
 
         return view('job.show', ['job' => new JobPresenter($job)]);
     }
-
 }
