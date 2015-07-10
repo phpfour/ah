@@ -43,12 +43,16 @@
                     <td>{{ $job->postDate }}</td>
                 </tr>
                 <tr>
-                    <th><i class="fa fa-fw fa-globe"></i> Map</th>
-                    <td><a href="{{ $job->mapUrl }}" target="_blank">Open with Google Map</a></td>
-                </tr>
-                <tr>
                     <th><i class="fa fa-fw fa-link"></i> Source</th>
                     <td><a href="{{ $job->sourceUrl }}" target="_blank">See Original <i class="fa fa-share-square-o"></i> </a></td>
+                </tr>
+                <tr>
+                    <th colspan="2">
+                        <i class="fa fa-fw fa-globe"></i> Map
+                        <p style="margin: 10px 0">
+                            <a href="{{ $job->mapUrl }}" target="_blank">{!! $job->staticMap !!}</a>
+                        </p>
+                    </th>
                 </tr>
             </tbody>
         </table>

@@ -39,6 +39,13 @@ class JobPresenter extends Presenter
         return "https://www.google.com/maps/?q={$this->object->job_ziplat},{$this->object->job_ziplon}";
     }
 
+    public function presentStaticMap()
+    {
+        $latLon = "{$this->object->job_ziplat},{$this->object->job_ziplon}";
+
+        return "<img src=\"http://maps.googleapis.com/maps/api/staticmap?center={$latLon}&zoom=14&scale=false&size=350x200&maptype=roadmap&format=png&visual_refresh=true&markers=size:mid%7Ccolor:red%7Clabel:1%7C{$latLon}\" alt=\"Google Map of {$this->presentCompany()}\">";
+    }
+
 
 
 
