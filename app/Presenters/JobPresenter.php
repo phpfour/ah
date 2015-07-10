@@ -26,8 +26,21 @@ class JobPresenter extends Presenter
 
     public function presentLocation()
     {
-        return $this->object->city;
+        return $this->object->city . ', ' . $this->object->province;
     }
+
+    public function presentSourceUrl()
+    {
+        return $this->object->job_source_url;
+    }
+
+    public function presentMapUrl()
+    {
+        return "https://www.google.com/maps/?q={$this->object->job_ziplat},{$this->object->job_ziplon}";
+    }
+
+
+
 
     public function presentBlurb()
     {

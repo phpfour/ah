@@ -14,3 +14,4 @@
 Route::get('/', 'SearchController@home');
 Route::get('/search', 'SearchController@search');
 Route::get('/autocomplete', 'SearchController@autocomplete');
+Route::get('/jobs/{id}', 'JobController@show');
